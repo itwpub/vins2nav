@@ -1,18 +1,26 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 
 
 def generate_launch_description():
+    package_share = FindPackageShare('vins2nav')
     use_sim_time = LaunchConfiguration('use_sim_time')
     nav2_params = LaunchConfiguration('nav2_params')
     slam_params = LaunchConfiguration('slam_params')
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='false'),
-        DeclareLaunchArgument('nav2_params', default_value='configs/nav2_params.yaml'),
-        DeclareLaunchArgument('slam_params', default_value='configs/slam_toolbox_params.yaml'),
+        DeclareLaunchArgument(
+            'nav2_params',
+            default_value=PathJoinSubstitution([package_share, 'configs', 'nav2_params.yaml'])
+        ),
+        DeclareLaunchArgument(
+            'slam_params',
+            default_value=PathJoinSubstitution([package_share, 'configs', 'slam_toolbox_params.yaml'])
+        ),
 
         # OAK 4Dpro 驱动（示例，可替换为 depthai 官方 launch）
         Node(
