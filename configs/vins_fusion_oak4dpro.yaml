@@ -1,0 +1,43 @@
+%YAML:1.0
+
+# 示例参数：请按实际标定数据替换
+imu_topic: "/oak/imu"
+image0_topic: "/oak/left/image_raw"
+image1_topic: "/oak/right/image_raw"
+output_path: "/tmp/vins_output"
+
+max_cnt: 150
+min_dist: 30
+freq: 20
+F_threshold: 1.0
+show_track: 1
+flow_back: 1
+
+# 相机-IMU 时间偏移（秒）
+td: 0.0
+estimate_td: 0
+
+# 重力模长
+g_norm: 9.81
+
+# 外参模式：0-固定外参，1-优化外参
+estimate_extrinsic: 0
+extrinsicRotation: !!opencv-matrix
+  rows: 3
+  cols: 3
+  dt: d
+  data: [1,0,0,0,1,0,0,0,1]
+extrinsicTranslation: !!opencv-matrix
+  rows: 3
+  cols: 1
+  dt: d
+  data: [0,0,0]
+
+# 噪声参数（示例）
+acc_n: 0.2
+acc_w: 0.02
+gyr_n: 0.02
+gyr_w: 4.0e-4
+
+solver_time: 0.04
+num_iterations: 8
