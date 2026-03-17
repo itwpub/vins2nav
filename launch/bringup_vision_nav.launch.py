@@ -10,6 +10,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     nav2_params = LaunchConfiguration('nav2_params')
     slam_params = LaunchConfiguration('slam_params')
+    vins_params = LaunchConfiguration('vins_params')
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='false'),
@@ -20,6 +21,10 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'slam_params',
             default_value=PathJoinSubstitution([package_share, 'configs', 'slam_toolbox_params.yaml'])
+        ),
+        DeclareLaunchArgument(
+            'vins_params',
+            default_value=PathJoinSubstitution([package_share, 'configs', 'vins_fusion_oak4dpro.yaml'])
         ),
 
         # OAK 4Dpro 驱动（示例，可替换为 depthai 官方 launch）
@@ -37,7 +42,7 @@ def generate_launch_description():
             executable='vins_node',
             name='vins_node',
             output='screen',
-            parameters=['configs/vins_fusion_oak4dpro.yaml', {'use_sim_time': use_sim_time}],
+            parameters=[vins_params, {'use_sim_time': use_sim_time}],
         ),
 
         # 深度转激光（供 2D Nav2 使用）
